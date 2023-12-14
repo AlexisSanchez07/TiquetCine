@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Pelicula>
+
+@{
+    ViewData["Title"] = "Lista de Peliculas";
+}
+<div class="row justify-content-lg-end m-3">
+    <form class="form-inline my-2 my-lg-0" asp-action="Index" method="get" style="padding-right: 25px;">
+        <input name="Filtro" type="text" class="form-control" placeholder="Buscar una Pelicula...">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-dark">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.Nombre
+
+                                    <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.PeliculaId"><i class="bi bi-pencil-square"></i></a>
+
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.ImageURL" width="100%" alt="@item.Nombre">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text">@item.Descripcion</p>
+                            <input type="hidden" value="@item.Nombre" id="producto" />
+                            
+                            <p class="card-text"><b>Categoria: </b>@item.Categoria</p>
+                            <p class="card-text"><b>Fecha Inicio: </b>@item.FechaInicio.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>Fecha Final: </b>@item.FechaFinal.ToString("dd MMM yy")</p>
+                            <p class="card-text ">
+                                <b>Estado: </b>
+                                @if (DateTime.Now >= item.FechaInicio && DateTime.Now <= item.FechaFinal)
+                                {
+                                    <span class="badge bg-success text-white">Disponible</span>
+                                }
+                                else if (DateTime.Now > item.FechaFinal)
+                                {
+                                    <span class="badge bg-danger text-white">Expirada</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">Proximamente</span>
+                                }
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.PeliculaId">
+                                    <i class="bi bi-eye-fill"></i> Mostrar Detalles
+                                </a>
+                                <a class="btn btn-success text-white @((DateTime.Now > item.FechaFinal) ? "disabled" : "")"
+                                   asp-controller="Payment"
+                                   asp-action="Registration"
+                                   asp-route-id="@item.PeliculaId">
+                                    <i class="bi bi-cart-plus"></i> Comprar @item.Precio.ToString("c")
+                                </a>
+                                <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.PeliculaId"><i class="bi bi-trash"></i>Eliminar Pelicula </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div style="position:fixed; right: 35px; bottom: 65px;" class="text-white">
+    <a asp-controller="Peliculas" asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>Añadir
+    </a>
+</div>
+

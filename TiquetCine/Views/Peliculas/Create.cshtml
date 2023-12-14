@@ -1,0 +1,98 @@
+﻿@model TiquetCine.Models.Pelicula
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4>Crear una nueva Pelicula</h4>
+        </p>
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Nombre" class="control-label"></label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FechaInicio" class="control-label"></label>
+                                <input asp-for="FechaInicio" type="date" class="form-control" />
+                                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FechaFinal" class="control-label"></label>
+                                <input asp-for="FechaFinal" type="date" class="form-control" />
+                                <span asp-validation-for="FechaFinal" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Precio" class="control-label"></label>
+                                <input asp-for="Precio" type="number" class="form-control" />
+                                <span asp-validation-for="Precio" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ImageURL" class="control-label"></label>
+                                <input asp-for="ImageURL" class="form-control" />
+                                <span asp-validation-for="ImageURL" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CineId" class="control-label"></label>
+                                <select asp-for="CineId" class="form-control" asp-items="ViewBag.CineId"></select>
+                                <span asp-validation-for="CineId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Categoria" class="control-label"></label>
+                                <input asp-for="Categoria" class="form-control" />
+                                <span asp-validation-for="Categoria" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ProductorId" class="control-label"></label>
+                                <select asp-for="ProductorId" class="form-control" asp-items="ViewBag.ProductorId"></select>
+                                <span asp-validation-for="ProductorId" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Descripcion" class="control-label"></label>
+                                <textarea asp-for="Descripcion" class="form-control"></textarea>
+                                <span asp-validation-for="Descripcion" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 offset-4 text-center">
+                        <img width="100%" id="ImageUrlPreview" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Crear" class="btn btn-outline-success float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Volver</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $("#ImageURL").on("change", function () {
+            var output = document.getElementById("ImageUrlPreview");
+            output.src = $(this).val();
+        })
+    </script>
+}
